@@ -1,6 +1,6 @@
 # TemperatureFanControl
 
-A simple program for reading a SHT4x temperature sensor and controlling a fan from it
+A simple program for reading a 10kΩ NTC temperature sensor and controlling a fan from it
 
 ## Wiring
 
@@ -12,16 +12,22 @@ I connected a 4 pin 12V PWM fan (commonly found in computers on the CPU cooler) 
 
 [Here's an example for Noctua Fan pinouts](https://faqs.noctua.at/support/solutions/articles/101000081757-what-pin-configuration-do-noctua-fans-use-)
 
-I also connected the [Adafruit SHT45 breakout](https://www.adafruit.com/product/5665) to the Arduino.
-This can be done with their SemmaQt connector breakout wire:
-* Yellow to SCL
-* Blue to SCK
-* Red to 5V
-* Black to Gnd
+I also connected a cheap 10kΩ thermistor and a 10kΩ resistor to the arduino:
+* One end of the NTC to Gnd
+* One end of the NTC to Analog 0 on the Arduino
+* One end of the 10kΩ resistor to Analog 0
+* One end of the 10kΩ resistor to 5V
 
 ## Configuration
 
 At the top of the file, you can specify the fan speeds and the temperature range for activation.
+
+You will need to calibrate the NTC thermistor against a known temperature source. You could do this in many ways,
+but this is left as an exercise to the user. I've provided sensible values for a 10kΩ thermistor, but it was off by about 5 degrees C.
+The A, B, and C defines at the top let you control these constants.
+
+You may also want to put a more accurate resistance for your 10kΩ resistor if you have a decent ohmmeter. This will also improve accuracy,
+as this number is used to calculate the (unknown) resistance of the thermistor using a voltage divider calculation.
 
 The temperature range is the minimum and maximum temperature. Beyond these temperatures, the fan will camp
 to the slow and fast speeds in the other variables. In the current configuration, the fan is slow or off
